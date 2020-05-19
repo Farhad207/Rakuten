@@ -1,0 +1,65 @@
+Skip to content
+ 
+Search…
+All gists
+Back to GitHub
+@Farhad207 
+@bryanhunter bryanhunter/build-erlang.sh
+Last active 5 years ago • Report abuse
+0
+0
+ Code Revisions 2
+<script src="https://gist.github.com/bryanhunter/adbd9c8d9fb2f6366eee.js"></script>
+  
+This script will install dependencies and then build and install erlang using kerl on Ubuntu
+ build-erlang.sh
+#!/bin/bash
+# This script will install dependencies then build and install erlang using kerl
+# Pull this file down, make it executable and run it with sudo
+# 
+# wget https://gist.githubusercontent.com/bryanhunter/adbd9c8d9fb2f6366eee/raw/build-erlang.sh
+# chmod u+x build-erlang.sh
+# sudo ./build-erlang.sh
+# 
+# Version: 17.1
+
+
+if [ $(id -u) != "0" ]; then
+echo "You must be the superuser to run this script" >&2
+exit 1
+fi
+apt-get update
+
+# Install curl (needed by kerl)
+apt-get -y install curl
+
+# Install the build tools (dpkg-dev g++ gcc libc6-dev make)
+apt-get -y install build-essential
+
+# automatic configure script builder (debianutils m4 perl)
+apt-get -y install autoconf
+
+# Needed for HiPE (native code) support, but already installed by autoconf
+# apt-get -y install m4
+
+apt-get -y install libncurses5-dev
+
+apt-get -y install libwxgtk2.8-dev libgl1-mesa-dev libglu1-mesa-dev libpng3
+
+apt-get -y install libssh-dev
+
+
+apt-get -y install unixodbc-dev
+
+# Get rebar
+curl -O https://raw.githubusercontent.com/wiki/rebar/rebar/rebar
+chmod a+x rebar
+mv rebar /usr/local/bin
+
+# Get kerl, build, install, and activate Erlang
+curl -O https://raw.githubusercontent.com/yrashk/kerl/master/kerl
+chmod a+x kerl
+mv kerl /usr/local/bin
+kerl update releases
+kerl build 17.1 17.1
+kerl install 17.1 /opt/erlang/17.1

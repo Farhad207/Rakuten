@@ -1,0 +1,19 @@
+1. Pull the latest Ubuntu image:
+docker pull ubuntu
+
+2.Run the docker image with name shell 
+docker run --name lamp-server-template -it ubuntu:latest bash
+
+docker ps -a -> will give all the docker containers 
+
+-----------------
+
+tagging example 
+
+Tag an image referenced by ID
+docker tag 0e5574283393 fedora/httpd:version1.0
+
+Tag an image referenced by Name
+docker tag httpd fedora/httpd:version1.0
+
+$ docker tag 0e5574283393 myregistryhost:5000/fedora/httpd:version1.0
